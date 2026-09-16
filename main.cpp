@@ -14,18 +14,18 @@ void swapByPointerToPointer(int **x, int **y) {
 }
 
 int main() {
-    int a = 5, b = 10;
-    cout << "Before: a = " << a << ", b = " << b << endl;
-    swapByAddress(&a, &b);
-    cout << "After: a = " << a << ", b = " << b << endl;
+    // int a = 5, b = 10;
+    // cout << "Before: a = " << a << ", b = " << b << endl;
+    // swapByAddress(&a, &b);
+    // cout << "After: a = " << a << ", b = " << b << endl;
 
-    int *pa = &a;
-    int *pb = &b;
-    int **ppa = &pa;
-    int **ppb = &pb;
-    cout << "Before: *pa = " << *pa << ", *pb = " << *pb << endl;
-    swapByPointerToPointer(ppa, ppb);
-    cout << "After: *pa = " << *pa << ", *pb = " << *pb << endl;
+    // int *pa = &a;
+    // int *pb = &b;
+    // int **ppa = &pa;
+    // int **ppb = &pb;
+    // cout << "Before: *pa = " << *pa << ", *pb = " << *pb << endl;
+    // swapByPointerToPointer(ppa, ppb);
+    // cout << "After: *pa = " << *pa << ", *pb = " << *pb << endl;
 
     // cout << "Size of int: " << sizeof(int) << " bytes" << endl;
     // cout << "Size of long: " << sizeof(long) << " bytes" << endl;
@@ -44,6 +44,67 @@ int main() {
 
 
 
+    int rows, cols;
+
+    cout << "Enter number of students: ";
+    cin >> rows;
+
+    while (rows <= 0) {
+        cout << "Rows must be greater than 0: ";
+        cin >> rows;
+    }
+
+    cout << "Enter number of subjects: ";
+    cin >> cols;
+
+    while (cols <= 0) {
+        cout << "Cols must be greater than 0: ";
+        cin >> cols;
+    }
+    int** marks = new int*[rows];
+    for (int r = 0; r < rows; r++) {
+        marks[r] = new int[cols];
+    }
+
+    cout << "Enter marks (0 to 100) row by row:\n";
+    for (int r = 0; r < rows; r++) {
+        for (int c = 0; c < cols; c++) {
+            cin >> *(*(marks + r) + c);
+        }
+    }
+    cout << "\nMatrix:\n";
+    for (int r = 0; r < rows; r++) {
+        for (int c = 0; c < cols; c++) {
+            cout << *(*(marks + r) + c) << " ";
+        }
+        cout << endl;
+    }
+
+    int bestTotal = -1;
+    int bestStudent = 1;
+
+    cout << "\ntotals:\n";
+    for (int r = 0; r < rows; r++) {
+        int total = 0;
+
+        for (int c = 0; c < cols; c++) {
+            total += *(*(marks + r) + c);
+        }
+
+        cout << "Student " << r + 1 << ": " << total << endl;
+        if (r == 0 || total > bestTotal) {
+            bestTotal = total;
+            bestStudent = r + 1;
+        }
+    }
+
+    cout << "\nTop student: " << bestStudent << endl;
+    cout << "Highest total: " << bestTotal << endl;
+    for (int r = 0; r < rows; r++) {
+        delete[] marks[r];
+    }
+    delete[] marks;
+    marks = nullptr;
 
     return 0;
 }
